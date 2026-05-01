@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Aniversário</title>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fef0f7;
+            font-family: 'Poppins', 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .page {
+            text-align: center;
+            margin-bottom: 50px;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .title {
+            font-size: 50px;
+            font-weight: 700;
+            color: #444;
+            margin: 0;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            color: #e889aa;
+            font-size: 50px;
+            font-weight: 700;
+            margin: 0;
+            display: inline;
+            position: relative;
+            text-shadow: 1px 1px 3px rgba(232, 137, 170, 0.3);
+        }
+        
+        .subtitle:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            bottom: -3px;
+            left: 0;
+            background-color: #e889aa;
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        .page.active .subtitle:after {
+            transform: scaleX(1);
+            transition-delay: 1s;
+        }
+
+        .emoji {
+            font-size: 50px;
+            margin-left: 10px;
+            color: #444;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .emoji:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .instruction {
+            color: #6d7e96;
+            font-size: 20px;
+            margin: 30px 0;
+            font-weight: 500;
+            opacity: 0;
+            animation: fadeInUp 0.4s ease forwards;
+            animation-delay: 0.3s;
+            text-shadow: 1px 1px 2px rgba(109, 126, 150, 0.1);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #e889aa 0%, #d577a0 100%);
+            color: white;
+            border: none;
+            padding: 15px 60px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(232, 137, 170, 0.3);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 0.4s ease forwards;
+            animation-delay: 0.5s;
+            z-index: 1;
+        }
+
+        .next-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .next-btn:hover:before {
+            left: 100%;
+        }
+
+        .next-btn:hover {
+            background: linear-gradient(135deg, #d577a0 0%, #c0648c 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(232, 137, 170, 0.5);
+        }
+
+        .next-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Page 2 styles */
+        .envelope-img, .crying-img, .header-img {
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            transition: transform 0.5s ease;
+        }
+        
+        .envelope-img {
+            animation-delay: 0.1s;
+        }
+        
+        .crying-img {
+            margin-top: 20px;
+            animation-delay: 0.1s;
+        }
+        
+        .header-img {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border: 5px solid white;
+            transform: rotate(-3deg);
+            transition: transform 0.3s ease;
+            animation-delay: 0.2s;
+        }
+        
+        .header-img:hover {
+            transform: rotate(3deg) scale(1.05);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .question-text {
+            font-size: 26px;
+            color: #444;
+            margin: 20px 0 40px 0;
+            font-weight: 500;
+            opacity: 0;
+            animation: fadeInUp 0.4s ease forwards;
+            animation-delay: 0.3s;
+        }
+        
+        .plea-title {
+            font-size: 38px;
+            font-weight: bold;
+            color: #444;
+            margin: 5px 0;
+            line-height: 1.2;
+            opacity: 0;
+            animation: fadeInUp 0.4s ease forwards;
+            animation-delay: 0.2s;
+        }
+        
+        .plea-subtitle {
+            font-size: 34px;
+            font-weight: bold;
+            color: #444;
+            margin: 5px 0 40px 0;
+            opacity: 0;
+            animation: fadeInUp 0.4s ease forwards;
+            animation-delay: 0.3s;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeInUp 0.4s ease forwards;
+            animation-delay: 0.4s;
+        }
+
+        .choice-btn {
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .choice-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .choice-btn:hover:before {
+            left: 100%;
+        }
+
+        .open-btn {
+            background: linear-gradient(135deg, #e889aa 0%, #d577a0 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(232, 137, 170, 0.3);
+        }
+
+        .open-btn:hover {
+            background: linear-gradient(135deg, #d577a0 0%, #c0648c 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(232, 137, 170, 0.5);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #7dd3c0 0%, #6bc4b0 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(125, 211, 192, 0.3);
+        }
+
+        .no-btn:hover {
+            background: linear-gradient(135deg, #6bc4b0 0%, #58b4a0 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(125, 211, 192, 0.5);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+            overflow: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .letter-container {
+            background: #fff;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform-origin: center;
+        }
+
+        .letter-header {
+            background: linear-gradient(135deg, #ffd6e4 0%, #ffbcd5 100%);
+            padding: 18px 25px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ffc0d5;
+        }
+
+        .letter-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #7a4b73;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #7a4b73;
+            padding: 0;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #ffbcd5;
+            transform: rotate(90deg);
+        }
+
+        .letter-content {
+            padding: 40px 30px;
+            background-color: #ffebf2;
+            background-image: url('rjonvzwh90.png');
+            background-size: 100% 100%;
+            min-height: 500px;
+            position: relative;
+        }
+
+        .letter-greeting {
+            font-size: 28px;
+            font-weight: bold;
+            color: #7a4b73;
+            margin-bottom: 35px;
+            margin-top: 60px;
+            font-style: italic;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .letter-greeting:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            bottom: -8px;
+            left: 0;
+            background-color: rgba(122, 75, 115, 0.3);
+            border-radius: 10px;
+        }
+
+        .letter-text {
+            font-size: 17px;
+            line-height: 1.9;
+            color: #7a4b73;
+            margin-bottom: 25px;
+            text-align: left;
+            font-style: italic;
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+            padding: 0 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .letter-text:hover {
+            transform: translateY(-2px);
+        }
+
+        .letter-signature {
+            text-align: right;
+            font-style: italic;
+            color: #7a4b73;
+            margin-top: 45px;
+            padding-right: 25px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+            font-size: 18px;
+            position: relative;
+        }
+        
+        .letter-signature:before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            top: -15px;
+            right: 25px;
+            background-color: rgba(122, 75, 115, 0.3);
+            border-radius: 10px;
+        }
+        
+        [contenteditable="true"] {
+            transition: all 0.3s ease;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        
+        [contenteditable="true"]:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        [contenteditable="true"]:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 0 2px rgba(232, 137, 170, 0.4);
+            padding: 8px;
+        }
+        
+        .letter-actions {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        /* Confetti & Animation Effects */
+        .confetti-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: transparent;
+            top: -10px;
+            animation: confetti-fall linear forwards;
+        }
+        
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            opacity: 0;
+            pointer-events: none;
+            animation: balloon-float 15s linear forwards;
+        }
+        
+        .hearts-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999;
+            display: none;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #e889aa;
+            animation: heart-float 4s ease-in forwards;
+            opacity: 0;
+            text-shadow: 0 0 5px rgba(232, 137, 170, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            0% { 
+                opacity: 0;
+                transform: translateY(-20px) scale(0.9);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes balloon-float {
+            0% {
+                transform: translateY(110vh) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(var(--balloon-x)) rotate(var(--balloon-r));
+                opacity: 0;
+            }
+        }
+        
+        @keyframes heart-float {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        /* Page transition effects */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #e889aa;
+            z-index: 2000;
+            transform: translateY(100%);
+            pointer-events: none;
+        }
+        
+        /* Adaptação para celular */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 34px;
+            }
+            
+            .subtitle {
+                font-size: 34px;
+            }
+            
+            .emoji {
+                font-size: 34px;
+            }
+            
+            .header-img {
+                width: 180px;
+                height: 180px;
+                border-radius: 15px;
+            }
+            
+            .instruction {
+                font-size: 17px;
+                margin: 20px 0;
+            }
+            
+            .next-btn {
+                padding: 12px 40px;
+                font-size: 16px;
+            }
+            
+            .envelope-img, .crying-img {
+                max-width: 250px;
+            }
+            
+            .question-text {
+                font-size: 22px;
+                margin: 15px 0 30px 0;
+            }
+            
+            .plea-title {
+                font-size: 30px;
+            }
+            
+            .plea-subtitle {
+                font-size: 26px;
+            }
+            
+            .choice-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .letter-container {
+                width: 95%;
+                max-height: 85vh;
+            }
+            
+            .letter-content {
+                padding: 25px 20px;
+            }
+            
+            .letter-greeting {
+                font-size: 22px;
+                margin-top: 40px;
+            }
+            
+            .letter-text {
+                font-size: 15px;
+                padding: 0 10px;
+            }
+            
+            .letter-signature {
+                padding-right: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 28px;
+            }
+            
+            .subtitle {
+                font-size: 28px;
+            }
+            
+            .emoji {
+                font-size: 28px;
+            }
+            
+            .header-img {
+                width: 150px;
+                height: 150px;
+                border-radius: 12px;
+            }
+            
+            .instruction {
+                font-size: 14px;
+            }
+            
+            .plea-title {
+                font-size: 24px;
+            }
+            
+            .plea-subtitle {
+                font-size: 20px;
+            }
+            
+            .envelope-img, .crying-img {
+                max-width: 200px;
+            }
+            
+            .letter-container {
+                width: 98%;
+            }
+            
+            .letter-content {
+                padding: 20px 15px;
+            }
+            
+            .letter-greeting {
+                font-size: 18px;
+            }
+            
+            .letter-text {
+                font-size: 13px;
+            }
+        }
+        
+        /* Estilo do controle de música */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(232, 137, 170, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(232, 137, 170, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .music-control:hover {
+            background: rgba(213, 119, 160, 0.9);
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 20px rgba(232, 137, 170, 0.5);
+        }
+        
+        .music-control:active {
+            transform: scale(0.95);
+        }
+        
+        .music-control .icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .music-control:hover .icon {
+            transform: rotate(-10deg);
+        }
+        
+        @media (max-width: 768px) {
+            .music-control {
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+        
+        /* Pulsating effect */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(232, 137, 170, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 25px rgba(232, 137, 170, 0.5);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(232, 137, 170, 0.3);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Música de fundo -->
+    <audio id="bgMusic" loop>
+        <source src="https://public.youware.com/users-website-assets/prod/be5f0538-9988-46af-be6d-399b4b8de4c3/Happy%20Whistling%20Ukulele.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Som de clique -->
+    <audio id="clickSound">
+        <source src="2568.wav" type="audio/wav">
+    </audio>
+    
+    <!-- Efeito de transição de página -->
+    <div class="page-transition"></div>
+    
+    <!-- Contêiner para confetes -->
+    <div class="confetti-container" id="confettiContainer"></div>
+    
+    <!-- Contêiner para corações flutuantes -->
+    <div class="hearts-container" id="heartsContainer"></div>
+    
+    <!-- Botão de controle de música -->
+    <button class="music-control pulse" id="musicToggle" onclick="toggleMusic()">
+        <span class="icon">🎵</span>
+    </button>
+    
+    <!-- Página 1: Saudação de aniversário -->
+    <div class="page active" id="page1">
+        <img src="d4enwza2ob.jpg" alt="Birthday character" class="header-img">
+        <h1 class="title">Chào cậu nha!!</h1>
+        
+        <p class="instruction">Bấm để tiếp tục nè!! =)))</p>
+        
+        <button class="next-btn" onclick="showPage2()"> dey deyy !!</button>
+    </div>
+
+    <!-- Página 2: Pergunta sobre o envelope -->
+    <div class="page" id="page2">
+        <img src="lhwhk0jmgr.jpg" alt="Pink envelope" class="envelope-img">
+        
+        <p class="question-text">Hihi nay sinh nhật cậu hả?? </p>
+        
+        <div class="button-container">
+            <button class="choice-btn open-btn" onclick="openEnvelope()">Juan</button>
+            <button class="choice-btn no-btn" onclick="sayNo()">Đéo</button>
+        </div>
+    </div>
+    <!-- Página 3: Tente novamente -->
+    <div class="page" id="page3">
+        <img src="mhdk5h7anz.jpg" alt="Crying character" class="crying-img">
+        
+        <h2 class="plea-title">Ah.. Vamos tentar de novo?</h2>
+        <h2 class="plea-subtitle">POR FAVOR?</h2>
+        
+        <div class="button-container">
+            <button class="choice-btn open-btn" onclick="tryAgain()">Tentar de novo..?</button>
+        </div>
+    </div>
+
+    <script>
+        // Pré-carregamento de imagens
+        window.addEventListener('DOMContentLoaded', function() {
+            const imagesToPreload = [
+                '9yy3sxblhj.png',
+                'lhwhk0jmgr.jpg',
+                'rjonvzwh90.png', 
+                'mhdk5h7anz.jpg',
+                'd4enwza2ob.jpg'
+            ];
+            
+            // Pré-carregamento de arquivos de áudio
+            const audioToPreload = [
+                'https://public.youware.com/users-website-assets/prod/be5f0538-9988-46af-be6d-399b4b8de4c3/Happy%20Whistling%20Ukulele.mp3',
+                '2568.wav'
+            ];
+            
+            imagesToPreload.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+            
+            // Iniciar confetes na página inicial após carregamento
+            setTimeout(() => {
+                createConfetti(50);
+            }, 300);
+        });
+        
+        // Funções para criar efeitos visuais
+        function createConfetti(amount = 50) {
+            const container = document.getElementById('confettiContainer');
+            container.innerHTML = '';
+            
+            const colors = ['#e889aa', '#7dd3c0', '#ffd6e4', '#6bc4b0', '#ffbcd5', '#FFEB3B', '#03A9F4'];
+            
+            for(let i = 0; i < amount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.random() * 10 + 5;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 5;
+                
+                confetti.style.backgroundColor = color;
+                confetti.style.width = size + 'px';
+                confetti.style.height = size + 'px';
+                confetti.style.left = left + '%';
+                confetti.style.animationDuration = duration + 's';
+                confetti.style.animationDelay = delay + 's';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                
+                container.appendChild(confetti);
+            }
+        }
+        
+        function createFloatingHearts(x, y, amount = 5) {
+            const container = document.getElementById('heartsContainer');
+            container.style.display = 'block';
+            
+            for(let i = 0; i < amount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤';
+                
+                const size = Math.random() * 20 + 10;
+                const left = x + (Math.random() * 60 - 30);
+                const top = y;
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 0.5;
+                
+                heart.style.fontSize = size + 'px';
+                heart.style.left = left + 'px';
+                heart.style.top = top + 'px';
+                heart.style.animationDuration = duration + 's';
+                heart.style.animationDelay = delay + 's';
+                
+                container.appendChild(heart);
+                
+                // Remover o coração após a animação
+                setTimeout(() => {
+                    heart.remove();
+                }, (duration + delay) * 1000);
+            }
+            
+            // Limpar todos os corações após 6 segundos
+            setTimeout(() => {
+                container.style.display = 'none';
+                container.innerHTML = '';
+            }, 6000);
+        }
+        
+        function createBalloons(amount = 10) {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#e889aa', '#7dd3c0', '#FF5252', '#FFD740', '#40C4FF'];
+            
+            for(let i = 0; i < amount; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.random() * 30 + 20;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 10 + 10;
+                
+                balloon.style.backgroundColor = color;
+                balloon.style.width = size + 'px';
+                balloon.style.height = size * 1.2 + 'px';
+                balloon.style.left = left + '%';
+                balloon.style.animationDuration = duration + 's';
+                balloon.style.borderRadius = '50% 50% 50% 50% / 40% 40% 60% 60%';
+                balloon.style.setProperty('--balloon-x', (Math.random() * 200 - 100) + 'px');
+                balloon.style.setProperty('--balloon-r', (Math.random() * 20 - 10) + 'deg');
+                
+                // Adicionar uma corda ao balão
+                const string = document.createElement('div');
+                string.style.position = 'absolute';
+                string.style.width = '1px';
+                string.style.height = size / 2 + 'px';
+                string.style.backgroundColor = '#888';
+                string.style.bottom = -size / 2 + 'px';
+                string.style.left = '50%';
+                string.style.transform = 'translateX(-50%)';
+                
+                balloon.appendChild(string);
+                container.appendChild(balloon);
+                
+                // Remover o balão após a animação
+                setTimeout(() => {
+                    balloon.remove();
+                }, duration * 1000);
+            }
+        }
+        
+        // Função para executar callback sem transição
+        function executeCallback(callback) {
+            if (callback) callback();
+        }
+        
+        function showPage2() {
+            playClickSound();
+            
+            executeCallback(() => {
+                document.getElementById('page1').classList.remove('active');
+                document.getElementById('page2').classList.add('active');
+                
+                // Criar balões após a transição
+                setTimeout(() => {
+                    createBalloons(5);
+                }, 200);
+            });
+        }
+
+function openEnvelope() {
+    playClickSound();
+
+    const btn = document.querySelector(".open-btn");
+    let scale = btn.dataset.scale || 1;
+    scale = parseFloat(scale) + 0.2;
+    btn.dataset.scale = scale;
+    btn.style.transform = `scale(${scale})`;
+    setTimeout(() => {
+        window.location.href = "page4.html";
+    }, 300);
+}
+
+        function closeLetter() {
+            playClickSound();
+            document.getElementById('letterModal').classList.remove('active');
+        }
+
+        function sayNo() {
+            playClickSound();
+             const btn = document.querySelector(".no-btn");
+
+
+    btn.style.position = "fixed";
+    btn.style.margin = "0";
+
+    const rect = btn.getBoundingClientRect();
+
+    const padding = 10;
+
+    const maxX = window.innerWidth - rect.width - padding;
+    const maxY = window.innerHeight - rect.height - padding;
+
+    let x = Math.random() * maxX;
+    let y = Math.random() * maxY;
+
+
+    x = Math.max(padding, Math.min(x, maxX));
+    y = Math.max(padding, Math.min(y, maxY));
+
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+    btn.style.zIndex = 99999;
+
+
+    btn.style.transform = "scale(1)";
+
+    const juan = document.querySelector(".open-btn");
+    let scale = juan.dataset.scale || 1;
+    scale = parseFloat(scale) + 0.12;
+
+    juan.dataset.scale = scale;
+    juan.style.transform = `scale(${scale})`;
+}
+        
+        function tryAgain() {
+            playClickSound();
+            
+            executeCallback(() => {
+                document.getElementById('page3').classList.remove('active');
+                document.getElementById('page1').classList.add('active');
+                
+                // Criar confetes após retornar à página inicial
+                setTimeout(() => {
+                    createConfetti(70);
+                }, 200);
+            });
+        }
+        
+        // Controle de música de fundo
+        let isMusicPlaying = false;
+        
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const musicBtn = document.getElementById('musicToggle');
+            const icon = musicBtn.querySelector('.icon');
+            
+            // Reproduzir som de clique
+            playClickSound();
+            
+            if (isMusicPlaying) {
+                music.pause();
+                icon.innerHTML = '🎵';
+                isMusicPlaying = false;
+                musicBtn.classList.add('pulse');
+            } else {
+                music.play().catch(e => {
+                    console.log('Reprodução automática de música bloqueada, por favor clique na tela e tente novamente');
+                });
+                icon.innerHTML = '🔇';
+                isMusicPlaying = true;
+                musicBtn.classList.remove('pulse');
+            }
+        }
+        
+        // Função de efeito sonoro de clique
+        function playClickSound() {
+            const clickSound = document.getElementById('clickSound');
+            clickSound.currentTime = 0; // Reiniciar o áudio do início
+            clickSound.play().catch(e => {
+                console.log('Falha ao reproduzir o som de clique');
+            });
+        }
+        
+        // Iniciar música automaticamente na primeira interação
+        document.addEventListener('click', function() {
+            if (!isMusicPlaying) {
+                // Tentar reproduzir música apenas no primeiro clique
+                const music = document.getElementById('bgMusic');
+                music.play().catch(e => {
+                    // Ignorar erros
+                });
+                document.getElementById('musicToggle').querySelector('.icon').innerHTML = '🔇';
+                document.getElementById('musicToggle').classList.remove('pulse');
+                isMusicPlaying = true;
+            }
+        }, { once: true });
+        
+        // Adicionar efeito sonoro de clique a todos os botões
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obter todos os botões
+            const buttons = document.querySelectorAll('button, .choice-btn, .next-btn, .save-btn, .music-control');
+            
+            // Adicionar evento de clique a cada botão
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Criar efeito de corações ao clicar em botões
+                    createFloatingHearts(e.clientX, e.clientY, 7);
+                    playClickSound();
+                });
+            });
+            
+            // Adicionar eventos de clique e funcionalidade de salvamento automático às áreas editáveis
+            const editableElements = document.querySelectorAll('[contenteditable="true"]');
+            editableElements.forEach(element => {
+                // Adicionar efeito sonoro de clique
+                element.addEventListener('click', function() {
+                    playClickSound();
+                });
+                
+                // Adicionar evento de entrada para salvamento automático
+                element.addEventListener('input', function() {
+                    // Salvar automaticamente quando o conteúdo mudar
+                    saveLetterContent(false); // false significa não mostrar alerta
+                });
+                
+                // Adicionar evento de perda de foco para garantir o salvamento após edição
+                element.addEventListener('blur', function() {
+                    saveLetterContent(false);
+                });
+            });
+        });
+        
+        function saveLetterContent(showAlert = true) {
+            if (showAlert) {
+                alert('Conteúdo salvo! 💌');
+            }
+            
+            // Código para salvar no armazenamento local
+            const letterGreeting = document.querySelector('.letter-greeting').innerText;
+            const letterTexts = [...document.querySelectorAll('.letter-text')].map(el => el.innerText);
+            const letterSignature = document.querySelector('.letter-signature').innerHTML;
+            
+            // Salvar no localStorage
+            localStorage.setItem('letterContent', JSON.stringify({
+                greeting: letterGreeting,
+                texts: letterTexts,
+                signature: letterSignature
+            }));
+        }
+        
+        // Carregar conteúdo salvo
+        function loadSavedContent() {
+            const savedContent = localStorage.getItem('letterContent');
+            
+            if (savedContent) {
+                try {
+                    const content = JSON.parse(savedContent);
+                    
+                    // Restaurar conteúdo
+                    document.querySelector('.letter-greeting').innerText = content.greeting;
+                    
+                    const textElements = document.querySelectorAll('.letter-text');
+                    content.texts.forEach((text, index) => {
+                        if (textElements[index]) {
+                            textElements[index].innerText = text;
+                        }
+                    });
+                    
+                    document.querySelector('.letter-signature').innerHTML = content.signature;
+                } catch (e) {
+                    console.error('Falha ao carregar conteúdo salvo', e);
+                }
+            }
+        }
+
+        // Tentar carregar conteúdo salvo quando a página carregar
+        window.addEventListener('DOMContentLoaded', loadSavedContent);
+
+        // Fechar modal ao clicar fora
+        window.onclick = function(event) {
+            const modal = document.getElementById('letterModal');
+            if (event.target === modal) {
+                closeLetter();
+            }
+        }
+    </script>
+</body>
+</html>
